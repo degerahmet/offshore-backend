@@ -8,4 +8,5 @@ def authenticate(jwtToken):
         'id': '1234567890',
         'walletAddress': '0x1234567890'
     }
+    ## alksdjakljsdh
     return status, user

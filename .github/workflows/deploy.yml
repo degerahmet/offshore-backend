@@ -8,6 +8,17 @@ jobs:
     steps:
         - name: checkout source code
           uses: actions/checkout@v3
+        - name: Get changed files
+          id: changed-files
+          uses: tj-actions/changed-files@v37
+        - name: List all changed files
+          run: |
+            for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+              echo "$file was changed"
+              if [$file == "utils/*"]; then
+                echo "utils was changed"
+              fi
+            done
         - name: Build binary
           run: |
             cd settings && zip ../deployment.zip create.py && cd .. && zip deployment.zip utils/auth.py utils/secret_manager.py
