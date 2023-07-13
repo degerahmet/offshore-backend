@@ -25,7 +25,6 @@ def handler(event, context):
 
     # Get user information from the request body
     if body:
-        body = json.loads(body)
         username = body.get('username', None)
         email = body.get('email', None)
         profilePicture = body.get('profilePicture', None)
