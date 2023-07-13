@@ -14,9 +14,7 @@ jobs:
         - name: List all changed files
           run: |
             for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
-              if [$file == "utils/auth.py"] || [$file=="utils/secret_manager.py"]; then
-                echo "$file was changed"
-              fi
+              echo $file
             done
         - name: Build binary
           run: |
