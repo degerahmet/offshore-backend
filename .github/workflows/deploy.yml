@@ -8,21 +8,12 @@ jobs:
     steps:
         - name: checkout source code
           uses: actions/checkout@v3
-        - name: Get changed files
-          id: changed-files
-          uses: tj-actions/changed-files@v37
-        - name: List all changed files
+        - name: Build all deployment zip files
           run: |
-            for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
-              if [$file = "utils/auth.py" ] || [$file = "utils/secret_manager.py" ]
-              then
-                echo "changed file: $file"
-              fi
-            done
-        - name: Build binary
-          run: |
-            cd settings && zip ../deployment.zip create.py && cd .. && zip deployment.zip utils/auth.py utils/secret_manager.py
-        - name: default deploy
+            cd settings && zip ../deployment.zip create.py && cd .. && zip deployment.zip utils/auth.py utils/secret_manager.py && cd ..
+            cd settings && zip ../deployment.zip read.py && cd .. && zip deployment.zip utils/auth.py utils/secret_manager.py && cd ..
+            cd settings && zip ../deployment.zip update.py && cd .. && zip deployment.zip utils/auth.py utils/secret_manager.py && cd ..
+        - name: Deploy CREATE request lambda function
           uses: appleboy/lambda-action@v0.1.9
           with:
             aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY }}
@@ -31,4 +22,24 @@ jobs:
             function_name: offshore_settings_create
             zip_file: deployment.zip
             handler: create.handler
+            runtime: python3.9
+        - name: Deploy READ request lambda function
+          uses: appleboy/lambda-action@v0.1.9
+          with:
+            aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY }}
+            aws_secret_access_key: ${{ secrets.AWS_SECRET_KEY }}
+            aws_region: ${{ secrets.AWS_REGION }}
+            function_name: offshore_settings_read
+            zip_file: deployment.zip
+            handler: read.handler
+            runtime: python3.9
+        - name: Deploy UPDATE request lambda function
+          uses: appleboy/lambda-action@v0.1.9
+          with:
+            aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY }}
+            aws_secret_access_key: ${{ secrets.AWS_SECRET_KEY }}
+            aws_region: ${{ secrets.AWS_REGION }}
+            function_name: offshore_settings_update
+            zip_file: deployment.zip
+            handler: update.handler
             runtime: python3.9
