@@ -8,5 +8,5 @@ def authenticate(jwtToken):
         'id': '1234567890',
         'walletAddress': '0x1234567890'
     }
-    ## alksdjakljsdaskljdhajklsdhalkjghsd
+    ## TODO: Add logic to check the JWT token
     return status, user
