@@ -10,7 +10,7 @@ jobs:
           uses: actions/checkout@v3
         - name: Build binary
           run: |
-            zip deployment.zip settings/create.py utils/auth.py utils/secret_manager.py
+            cd settings && zip ../deployment.zip create.py && cd ../utils && zip ../deployment.zip auth.py secret_manager.py
         - name: default deploy
           uses: appleboy/lambda-action@v0.1.9
           with:
@@ -19,5 +19,5 @@ jobs:
             aws_region: ${{ secrets.AWS_REGION }}
             function_name: offshore_settings_create
             zip_file: deployment.zip
-            handler: handler
+            handler: create.handler
             runtime: python3.9
