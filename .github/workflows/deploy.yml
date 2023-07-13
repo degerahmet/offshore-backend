@@ -10,9 +10,9 @@ jobs:
           uses: actions/checkout@v3
         - name: Build all deployment zip files
           run: |
-            cd settings && zip ../create_deployment.zip create.py && cd .. && zip deployment.zip utils/auth.py utils/secret_manager.py 
-            cd settings && zip ../read_deployment.zip read.py && cd .. && zip deployment.zip utils/auth.py utils/secret_manager.py 
-            cd settings && zip ../update_deployment.zip update.py && cd .. && zip deployment.zip utils/auth.py utils/secret_manager.py
+            cd settings && zip ../create_deployment.zip create.py && cd .. && zip create_deployment.zip utils/auth.py utils/secret_manager.py 
+            cd settings && zip ../read_deployment.zip read.py && cd .. && zip read_deployment.zip utils/auth.py utils/secret_manager.py 
+            cd settings && zip ../update_deployment.zip update.py && cd .. && zip update_deployment.zip utils/auth.py utils/secret_manager.py
         - name: Deploy CREATE request lambda function
           uses: appleboy/lambda-action@v0.1.9
           with:
