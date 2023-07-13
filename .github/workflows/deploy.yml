@@ -10,9 +10,9 @@ jobs:
           uses: actions/checkout@v3
         - name: Build all deployment zip files
           run: |
-            cd settings && zip ../deployment.zip create.py && cd .. && zip deployment.zip utils/auth.py utils/secret_manager.py && cd ..
-            cd settings && zip ../deployment.zip read.py && cd .. && zip deployment.zip utils/auth.py utils/secret_manager.py && cd ..
-            cd settings && zip ../deployment.zip update.py && cd .. && zip deployment.zip utils/auth.py utils/secret_manager.py && cd ..
+            cd settings && zip ../create_deployment.zip create.py && cd .. && zip deployment.zip utils/auth.py utils/secret_manager.py 
+            cd settings && zip ../read_deployment.zip read.py && cd .. && zip deployment.zip utils/auth.py utils/secret_manager.py 
+            cd settings && zip ../update_deployment.zip update.py && cd .. && zip deployment.zip utils/auth.py utils/secret_manager.py
         - name: Deploy CREATE request lambda function
           uses: appleboy/lambda-action@v0.1.9
           with:
@@ -20,7 +20,7 @@ jobs:
             aws_secret_access_key: ${{ secrets.AWS_SECRET_KEY }}
             aws_region: ${{ secrets.AWS_REGION }}
             function_name: offshore_settings_create
-            zip_file: deployment.zip
+            zip_file: create_deployment.zip
             handler: create.handler
             runtime: python3.9
         - name: Deploy READ request lambda function
@@ -30,7 +30,7 @@ jobs:
             aws_secret_access_key: ${{ secrets.AWS_SECRET_KEY }}
             aws_region: ${{ secrets.AWS_REGION }}
             function_name: offshore_settings_read
-            zip_file: deployment.zip
+            zip_file: read_deployment.zip
             handler: read.handler
             runtime: python3.9
         - name: Deploy UPDATE request lambda function
@@ -40,6 +40,6 @@ jobs:
             aws_secret_access_key: ${{ secrets.AWS_SECRET_KEY }}
             aws_region: ${{ secrets.AWS_REGION }}
             function_name: offshore_settings_update
-            zip_file: deployment.zip
+            zip_file: update_deployment.zip
             handler: update.handler
             runtime: python3.9
