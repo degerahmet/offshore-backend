@@ -10,9 +10,17 @@ jobs:
           uses: actions/checkout@v3
         - name: Build all deployment zip files
           run: |
-            cd settings && zip ../create_deployment.zip create.py && cd .. && zip create_deployment.zip utils/auth.py utils/secret_manager.py 
+            cd settings && zip ../create_deployment.zip create.py && cd .. && zip create_deployment.zip utils/auth.py utils/secret_manager.py
             cd settings && zip ../read_deployment.zip read.py && cd .. && zip read_deployment.zip utils/auth.py utils/secret_manager.py 
-            cd settings && zip ../update_deployment.zip update.py && cd .. && zip update_deployment.zip utils/auth.py utils/secret_manager.py
+            cd settings && zip ../update_deployment.zip update.py && cd .. && zip update_deployment.zip utils/auth.py utils/secret_manager.py 
+            cd encryption && zip ../encrypt_deployment.zip encrypt.py && cd .. && zip encrypt_deployment.zip utils/auth.py utils/secret_manager.py 
+            cd encryption && zip ../decrypt_deployment.zip decrypt.py && cd .. && zip decrypt_deployment.zip utils/auth.py utils/secret_manager.py 
+            python3 -m venv venv && source venv/bin/activate && pip install -r requirements.txt && cd venv/lib/python3.9/site-packages
+            zip -r ../../../create_deployment.zip *
+            zip -r ../../../update_deployment.zip *
+            zip -r ../../../read_deployment.zip *
+            zip -r ../../../encrypt_deployment.zip *
+            zip -r ../../../decrypt_deployment.zip *
         - name: Deploy CREATE request lambda function
           uses: appleboy/lambda-action@v0.1.9
           with:
@@ -42,4 +50,24 @@ jobs:
             function_name: offshore_settings_update
             zip_file: update_deployment.zip
             handler: update.handler
+            runtime: python3.9
+        - name: Deploy ENCRYPT request lambda function
+          uses: appleboy/lambda-action@v0.1.9
+          with:
+            aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY }}
+            aws_secret_access_key: ${{ secrets.AWS_SECRET_KEY }}
+            aws_region: ${{ secrets.AWS_REGION }}
+            function_name: offshore_encryption_encrypt
+            zip_file: encrypt_deployment.zip
+            handler: encrypt.handler
+            runtime: python3.9
+        - name: Deploy DECRYPT request lambda function
+          uses: appleboy/lambda-action@v0.1.9
+          with:
+            aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY }}
+            aws_secret_access_key: ${{ secrets.AWS_SECRET_KEY }}
+            aws_region: ${{ secrets.AWS_REGION }}
+            function_name: offshore_encryption_decrypt
+            zip_file: decrypt_deployment.zip
+            handler: decrypt.handler
             runtime: python3.9
