@@ -20,11 +20,11 @@ jobs:
             cd encryption && zip ../encrypt_deployment.zip encrypt.py && cd .. && zip encrypt_deployment.zip utils/auth.py utils/secret_manager.py 
             cd encryption && zip ../decrypt_deployment.zip decrypt.py && cd .. && zip decrypt_deployment.zip utils/auth.py utils/secret_manager.py 
             python3 -m venv venv && source venv/bin/activate && pip install -r requirements.txt && cd venv/lib/python3.9/site-packages
-            zip -r ../../../create_deployment.zip *
-            zip -r ../../../update_deployment.zip *
-            zip -r ../../../read_deployment.zip *
-            zip -r ../../../encrypt_deployment.zip *
-            zip -r ../../../decrypt_deployment.zip *
+            zip -r ../../../../create_deployment.zip *
+            zip -r ../../../../update_deployment.zip *
+            zip -r ../../../../read_deployment.zip *
+            zip -r ../../../../encrypt_deployment.zip *
+            zip -r ../../../../decrypt_deployment.zip *
         - name: Deploy CREATE request lambda function
           uses: appleboy/lambda-action@v0.1.9
           with:
