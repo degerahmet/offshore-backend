@@ -8,6 +8,10 @@ jobs:
     steps:
         - name: checkout source code
           uses: actions/checkout@v3
+        - name: Python version configuration
+          uses: actions/setup-python@v2
+          with:
+            python-version: '3.9'
         - name: Build all deployment zip files
           run: |
             cd settings && zip ../create_deployment.zip create.py && cd .. && zip create_deployment.zip utils/auth.py utils/secret_manager.py
