@@ -1,6 +1,7 @@
 import jwt
 import time
 from utils.secret_manager import get_secret
+import json
 
 def authenticate(jwtToken):
     """
@@ -11,6 +12,7 @@ def authenticate(jwtToken):
         JWT_SECRET = get_secret().get('JWT_SECRET', None)
         decodedJWT = jwt.decode(jwtToken, JWT_SECRET, algorithms=["HS256"])
         if decodedJWT:
+            json_data = json.loads(decodedJWT)
             exp = decodedJWT.get('exp', None)
             if exp and exp > int(time.time()):
                 return True, decodedJWT

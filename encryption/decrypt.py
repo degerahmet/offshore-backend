@@ -1,6 +1,6 @@
 import time
 from utils.secret_manager import get_secret
-import rsa
+import json
 import jwt
 from utils.auth import authenticate
 from Crypto.Cipher import AES
@@ -47,11 +47,16 @@ def handler(event, context):
         #TODO 3.Return the JWT token to the user
         
         # Creating JWT token
-        encoded_jwt = jwt.encode({
+        json_data = {
             'walletAddress': public_key,
             'message': decryptedMessage,
             'exp': int(time.time()) + 60*60*24*7
-        }, JWT_SECRET, algorithm="HS256")
+        }
+        
+        # convert json to string
+        str_data = json.dumps(json_data)
+
+        encoded_jwt = jwt.encode(str_data, JWT_SECRET, algorithm="HS256")
         status, user = authenticate(encoded_jwt)
         if not status:
             return {
