@@ -3,24 +3,15 @@ from utils.secret_manager import get_secret
 import rsa
 import jwt
 from utils.auth import authenticate
+from Crypto.Cipher import AES
 
-
-
-def decrypt(ciphertext, key):
+def decrypt(ciphertext, key, nonce):
+    decrypt_cipher = AES.new(key, AES.MODE_CTR, nonce=nonce)
     try:
-        return rsa.decrypt(ciphertext, key).decode('ascii')
+        return decrypt_cipher.decrypt(ciphertext).decode('ascii')
     except:
         return False
 
-def sign(message, key):
-    return rsa.sign(message.encode('ascii'), key, 'SHA-256')
-
-def verify(message, signature, key):
-    try:
-        return rsa.verify(message.encode('ascii'), signature, key,) == 'SHA-256'
-    except:
-        return False
-    
 def handler(event, context):
     body = event.get('body', None)
     if body is None:
@@ -46,7 +37,6 @@ def handler(event, context):
     JWT_SECRET = get_secret().get('JWT_SECRET', None)
     
     decryptedMessage = decrypt(encrpytedMessage, private_key)
-    verified = verify(decryptedMessage, signature, public_key)
     if verified:
         #TODO 1.Create a new JWT token for the user
         #TODO 2.Save the JWT token in the database

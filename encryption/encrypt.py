@@ -1,17 +1,15 @@
 from utils.secret_manager import get_secret
-import rsa
+from Crypto.Cipher import AES
 
 def encrypt(message, key):
-    return rsa.encrypt(message.encode('ascii'), key)
-
-def sign(message, key):
-    return rsa.sign(message.encode('ascii'), key, 'SHA-256')
-
-def verify(message, signature, key):
-    try:
-        return rsa.verify(message.encode('ascii'), signature, key,) == 'SHA-256'
-    except:
-        return False
+    cipher = AES.new(key, AES.MODE_CTR)
+    ciphertext, tag = cipher.encrypt(message.encode('ascii'))
+    nonce = cipher.nonce
+    return {
+        'ciphertext': ciphertext,
+        'tag': tag,
+        'nonce': nonce
+    }
 
 def handler(event, context):
     body = event.get('body', None)
@@ -42,12 +40,12 @@ def handler(event, context):
             'body': 'No base64 message provided'
         }
     
-    encrpytedMessage = encrypt(base64_message, public_key)
-    signature = sign(base64_message, private_key)
+    encrpytedMessage = encrypt(base64_message, private_key)
     return {
         'statusCode': 200,
         'body': {
-            'encryptedMessage': encrpytedMessage,
-            'signature': signature
+            'ciphertext': encrpytedMessage['ciphertext'],
+            'tag': encrpytedMessage['tag'],
+            'nonce': encrpytedMessage['nonce']
         }
     }
