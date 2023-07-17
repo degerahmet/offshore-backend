@@ -37,7 +37,7 @@ def handler(event, context):
     JWT_SECRET = get_secret().get('JWT_SECRET', None)
     
     decryptedMessage = decrypt(encrpytedMessage, private_key)
-    if verified:
+    if decryptedMessage:
         #TODO 1.Create a new JWT token for the user
         #TODO 2.Save the JWT token in the database
         #TODO 3.Return the JWT token to the user
@@ -65,7 +65,7 @@ def handler(event, context):
     else:
         return {
             'statusCode': 400,
-            'body': 'Signature not verified'
+            'body': 'Encrypted message is not verified'
         }
 
     

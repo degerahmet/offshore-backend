@@ -3,11 +3,10 @@ from Crypto.Cipher import AES
 
 def encrypt(message, key):
     cipher = AES.new(key.encode('utf-8'), AES.MODE_CTR)
-    ciphertext, tag = cipher.encrypt(message.encode('utf-8'))
+    ciphertext = cipher.encrypt(message.encode('utf-8'))
     nonce = cipher.nonce
     return {
         'ciphertext': ciphertext,
-        'tag': tag,
         'nonce': nonce
     }
 
