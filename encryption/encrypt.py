@@ -2,8 +2,8 @@ from utils.secret_manager import get_secret
 from Crypto.Cipher import AES
 
 def encrypt(message, key):
-    cipher = AES.new(key, AES.MODE_CTR)
-    ciphertext, tag = cipher.encrypt(message.encode('ascii'))
+    cipher = AES.new(key.encode('utf-8'), AES.MODE_CTR)
+    ciphertext, tag = cipher.encrypt(message.encode('utf-8'))
     nonce = cipher.nonce
     return {
         'ciphertext': ciphertext,
