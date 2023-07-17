@@ -41,7 +41,7 @@ def handler(event, context):
     
     decryptedMessage = decrypt(encrpytedMessage, private_key, nonce)
     if decryptedMessage:
-        decryptedMessage = base64.b64decode(decryptedMessage)
+        decryptedMessage = base64.b64decode(decryptedMessage).decode('utf-8')
         #TODO 1.Create a new JWT token for the user
         #TODO 2.Save the JWT token in the database
         #TODO 3.Return the JWT token to the user
@@ -56,6 +56,7 @@ def handler(event, context):
         # # convert string to json
         # json_data = json.dumps(json_data)
         # print(json_data)
+        print(decryptedMessage)
         encoded_jwt = jwt.encode(
             {
             'walletAddress': public_key,
