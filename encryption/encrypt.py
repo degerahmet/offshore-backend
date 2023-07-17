@@ -1,13 +1,14 @@
 from utils.secret_manager import get_secret
 from Crypto.Cipher import AES
+import base64
 
 def encrypt(message, key):
     cipher = AES.new(key.encode('utf8'), AES.MODE_CTR)
     ciphertext = cipher.encrypt(message.encode('ascii'))
     nonce = cipher.nonce
     return {
-        'ciphertext': ciphertext,
-        'nonce': nonce
+        'ciphertext': base64.b64encode(ciphertext).decode('utf-8'),
+        'nonce': base64.b64encode(nonce).decode('utf-8')
     }
 
 def handler(event, context):
