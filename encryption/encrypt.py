@@ -3,7 +3,7 @@ from Crypto.Cipher import AES
 
 def encrypt(message, key):
     cipher = AES.new(key.encode('utf-8'), AES.MODE_CTR)
-    ciphertext = cipher.encrypt(message.encode('utf-8'))
+    ciphertext = cipher.encrypt(message.encode('ascii'))
     nonce = cipher.nonce
     return {
         'ciphertext': ciphertext,
