@@ -53,8 +53,8 @@ def handler(event, context):
             'exp': int(time.time()) + 60*60*24*7
         })
         
-        # convert json to string
-        json_data = json.loads(json_data)
+        # convert string to json
+        json_data = json.dumps(json_data)
         print(json_data)
         encoded_jwt = jwt.encode(json_data, JWT_SECRET, algorithm="HS256")
         status, user = authenticate(encoded_jwt)
