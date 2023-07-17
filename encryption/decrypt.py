@@ -6,9 +6,9 @@ from utils.auth import authenticate
 from Crypto.Cipher import AES
 
 def decrypt(ciphertext, key, nonce):
-    decrypt_cipher = AES.new(key.encode('utf-8'), AES.MODE_CTR, nonce=nonce)
+    decrypt_cipher = AES.new(key, AES.MODE_CTR, nonce=nonce)
     try:
-        return decrypt_cipher.decrypt(ciphertext).decode('utf-8')
+        return decrypt_cipher.decrypt(ciphertext).decode('ascii')
     except:
         return False
 
