@@ -57,7 +57,7 @@ def handler(event, context):
         # json_data = json.dumps(json_data)
         # print(json_data)
         print(json.dumps(decryptedMessage))
-        print(json.dumps(decryptedMessage).type)
+        print(type(json.dumps(decryptedMessage)))
         print(json.dumps(decryptedMessage).address)
         encoded_jwt = jwt.encode(
             {
