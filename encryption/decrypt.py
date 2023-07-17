@@ -4,8 +4,11 @@ import rsa
 import jwt
 from utils.auth import authenticate
 from Crypto.Cipher import AES
+import base64
 
 def decrypt(ciphertext, key, nonce):
+    ciphertext = base64.b64decode(ciphertext).decode('utf-8')
+    nonce = base64.b64decode(nonce).decode('utf-8')
     decrypt_cipher = AES.new(key.encode('utf8'), AES.MODE_CTR, nonce=nonce)
     try:
         return decrypt_cipher.decrypt(ciphertext).decode('ascii')
