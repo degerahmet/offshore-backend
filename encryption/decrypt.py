@@ -20,8 +20,8 @@ def handler(event, context):
             'body': 'No body provided'
         }
     encrpytedMessage = body.get('encryptedMessage', None)
-    signature = body.get('signature', None)
-    if encrpytedMessage is None or signature is None:
+    nonce = body.get('nonce', None)
+    if encrpytedMessage is None or nonce is None:
         return {
             'statusCode': 400,
             'body': 'Missing required parameters'
@@ -36,7 +36,7 @@ def handler(event, context):
     private_key = get_secret().get('SECRET_KEY', None)
     JWT_SECRET = get_secret().get('JWT_SECRET', None)
     
-    decryptedMessage = decrypt(encrpytedMessage, private_key)
+    decryptedMessage = decrypt(encrpytedMessage, private_key, nonce)
     if decryptedMessage:
         #TODO 1.Create a new JWT token for the user
         #TODO 2.Save the JWT token in the database
