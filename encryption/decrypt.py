@@ -47,11 +47,11 @@ def handler(event, context):
         #TODO 3.Return the JWT token to the user
         
         # Creating JWT token
-        json_data = {
+        json_data = str({
             'walletAddress': public_key,
             'message': decryptedMessage,
             'exp': int(time.time()) + 60*60*24*7
-        }
+        })
         
         # convert json to string
         json_data = json.loads(json_data)
