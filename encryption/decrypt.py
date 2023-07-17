@@ -47,16 +47,22 @@ def handler(event, context):
         #TODO 3.Return the JWT token to the user
         
         # Creating JWT token
-        json_data = str({
+        # json_data = str({
+        #     'walletAddress': public_key,
+        #     'message': decryptedMessage,
+        #     'exp': int(time.time()) + 60*60*24*7
+        # })
+        
+        # # convert string to json
+        # json_data = json.dumps(json_data)
+        # print(json_data)
+        encoded_jwt = jwt.encode(
+            {
             'walletAddress': public_key,
             'message': decryptedMessage,
             'exp': int(time.time()) + 60*60*24*7
-        })
-        
-        # convert string to json
-        json_data = json.dumps(json_data)
-        print(json_data)
-        encoded_jwt = jwt.encode(json_data, JWT_SECRET, algorithm="HS256")
+        }
+        , JWT_SECRET, algorithm="HS256")
         status, user = authenticate(encoded_jwt)
         if not status:
             return {
