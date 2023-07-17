@@ -7,8 +7,8 @@ from Crypto.Cipher import AES
 import base64
 
 def decrypt(ciphertext, key, nonce):
-    ciphertext = base64.b64decode(ciphertext).decode('utf-8')
-    nonce = base64.b64decode(nonce).decode('utf-8')
+    ciphertext = base64.b64decode(ciphertext)
+    nonce = base64.b64decode(nonce)
     decrypt_cipher = AES.new(key.encode('utf8'), AES.MODE_CTR, nonce=nonce)
     try:
         return decrypt_cipher.decrypt(ciphertext).decode('ascii')
@@ -41,7 +41,7 @@ def handler(event, context):
     
     decryptedMessage = decrypt(encrpytedMessage, private_key, nonce)
     if decryptedMessage:
-        decryptedMessage = base64.b64decode(decryptedMessage).decode('utf-8')
+        decryptedMessage = base64.b64decode(decryptedMessage)
         #TODO 1.Create a new JWT token for the user
         #TODO 2.Save the JWT token in the database
         #TODO 3.Return the JWT token to the user
