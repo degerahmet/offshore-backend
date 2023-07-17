@@ -13,8 +13,7 @@ def authenticate(jwtToken):
         decodedJWT = jwt.decode(jwtToken, JWT_SECRET, algorithms=["HS256"])
         if decodedJWT:
             print(decodedJWT)
-            json_data = json.loads(decodedJWT)
-            exp = json_data.get('exp', None)
+            exp = decodedJWT.get('exp', None)
             if exp and exp > int(time.time()):
                 return True, decodedJWT
     return False, None
