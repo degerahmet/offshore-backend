@@ -61,7 +61,7 @@ def handler(event, context):
             {
             'walletAddress': public_key,
             'message': decryptedMessage,
-            'exp': int(time.time()) + 60*60*24*7
+            # 'exp': int(time.time()) + 60*60*24*7
         }
         , JWT_SECRET, algorithm="HS256")
         status, user = authenticate(encoded_jwt)
