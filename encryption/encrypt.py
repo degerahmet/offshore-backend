@@ -44,7 +44,6 @@ def handler(event, context):
         'statusCode': 200,
         'body': {
             'ciphertext': encrpytedMessage['ciphertext'],
-            'tag': encrpytedMessage['tag'],
             'nonce': encrpytedMessage['nonce']
         }
     }
