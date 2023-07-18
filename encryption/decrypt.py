@@ -61,7 +61,7 @@ def handler(event, context):
         json_data = json.loads(decryptedMessage)
         encoded_jwt = jwt.encode(
             {
-            "walletAddress": public_key.decode('utf-8'),
+            "walletAddress": public_key,
             "message": json_data,
             "exp": int(time.time()) + 60*60*24*7
         }
