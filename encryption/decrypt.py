@@ -56,7 +56,7 @@ def handler(event, context):
         # # convert string to json
         # json_data = json.dumps(json_data)
         # print(json_data)
-        print(decryptedMessage)
+        decryptedMessage = decryptedMessage.replace("'", '"')
         json_data = json.loads(decryptedMessage)
         encoded_jwt = jwt.encode(
             {
