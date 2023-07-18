@@ -56,13 +56,11 @@ def handler(event, context):
         # # convert string to json
         # json_data = json.dumps(json_data)
         # print(json_data)
-        json_data = json.loads(decryptedMessage)
-        print(json_data)
-        print(json_data['address'])
+        print(decryptedMessage)
         encoded_jwt = jwt.encode(
             {
             'walletAddress': public_key,
-            'message': json_data,
+            # 'message': json_data,
             # 'exp': int(time.time()) + 60*60*24*7
         }
         , JWT_SECRET, algorithm="HS256")
